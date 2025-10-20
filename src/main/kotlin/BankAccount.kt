@@ -1,6 +1,6 @@
 import factory.Account
 import iterator.TransactionHistory
-import observer.AccountObserver
+import singletonobserver.AccountObserver
 import state.AccountState
 import state.ActiveState
 

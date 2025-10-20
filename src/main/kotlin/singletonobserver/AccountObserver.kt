@@ -1,4 +1,4 @@
-package observer
+package singletonobserver
 
 import factory.Account
 

@@ -1,9 +1,10 @@
 import decorator.LoggingDecorator
 import decorator.NotificationDecorator
 import decorator.TimeDecorator
+import decorator.builder.TransactionBuilder
 import factory.AccountFactory
 import factory.AccountType
-import observer.NotificationService
+import singletonobserver.NotificationService
 import strategy.FixedFee
 import strategy.NoFee
 import strategy.PercentFee
@@ -36,96 +37,81 @@ fun main() {
     println("----------")
 
     // Thêm Observer để theo dõi biến động số dư
-    depositAccount.addObserver(NotificationService())
-    salaryAccount.addObserver(NotificationService())
+    depositAccount.addObserver(NotificationService.instance)
+    salaryAccount.addObserver(NotificationService.instance)
 
     // Giao dịch NẠP TIỀN
-    val depositTx = BasicTransaction(
-        account = depositAccount,
-        amount = 1000.0,
-        description = "Nộp tiền mặt tại quầy",
-        feeStrategy = noFee
-    )
+    val depositTx = TransactionBuilder()
+        .setAccount(depositAccount)
+        .setAmount(1000.0)
+        .setDescription("Nộp tiền mặt tại quầy")
+        .setFeeStrategy(noFee)
+        .enableNotification()
+        .enableTimestamp()
+        .enableLog()
+        .build()
 
-    // Thêm decorator
-    val decoratedDepositTx = LoggingDecorator(
-        TimeDecorator(
-            NotificationDecorator(depositAccount, depositTx)
-        )
-    )
-
-    decoratedDepositTx.execute()
+    depositTx.execute()
 
     println("----------")
 
     // Giao dịch NHẬN LƯƠNG
-    val salaryTx = BasicTransaction(
-        account = salaryAccount,
-        amount = 5000.0,
-        description = "Thanh toán lương tháng 10/2025",
-        feeStrategy = noFee
-    )
+    val salaryTx = TransactionBuilder()
+        .setAccount(salaryAccount)
+        .setAmount(5000.0)
+        .setDescription("Thanh toán lương tháng 10/2025")
+        .setFeeStrategy(noFee)
+        .enableNotification()
+        .enableTimestamp()
+        .enableLog()
+        .build()
 
-    val decoratedSalaryTx = LoggingDecorator(
-        TimeDecorator(
-            NotificationDecorator(salaryAccount, salaryTx)
-        )
-    )
-
-    decoratedSalaryTx.execute()
+    salaryTx.execute()
 
     println("----------")
 
     // Giao dịch RÚT TIỀN (có phí cố định)
-    val withdrawTx = BasicTransaction(
-        account = salaryAccount,
-        amount = -500.0,
-        description = "Rút tiền tại ATM",
-        feeStrategy = fixedFee
-    )
+    val withdrawTx = TransactionBuilder()
+        .setAccount(salaryAccount)
+        .setAmount(-500.0)
+        .setDescription("Rút tiền tại ATM")
+        .setFeeStrategy(fixedFee)
+        .enableNotification()
+        .enableTimestamp()
+        .enableLog()
+        .build()
 
-    val decoratedWithdrawTx = LoggingDecorator(
-        TimeDecorator(
-            NotificationDecorator(salaryAccount, withdrawTx)
-        )
-    )
-
-    decoratedWithdrawTx.execute()
+    withdrawTx.execute()
 
     println("----------")
 
     // Giao dịch MUA HÀNG (có phí phần trăm)
-    val purchaseTx = BasicTransaction(
-        account = salaryAccount,
-        amount = -1200.0,
-        description = "Thanh toán đơn hàng Shopee",
-        feeStrategy = percentFee
-    )
+    val purchaseTx = TransactionBuilder()
+        .setAccount(salaryAccount)
+        .setAmount(-1200.0)
+        .setDescription("Thanh toán đơn hàng Shopee")
+        .setFeeStrategy(percentFee)
+        .enableNotification()
+        .enableTimestamp()
+        .enableLog()
+        .build()
 
-    val decoratedPurchaseTx = LoggingDecorator(
-        TimeDecorator(
-            NotificationDecorator(salaryAccount, purchaseTx)
-        )
-    )
-
-    decoratedPurchaseTx.execute()
+    purchaseTx.execute()
 
     println("----------")
     depositAccount.freeze()
 
-    val withdrawTxFreeze = BasicTransaction(
-        account = depositAccount,
-        amount = -500.0,
-        description = "Rút tiền tại ATM",
-        feeStrategy = fixedFee
-    )
-    val decoratedWithdrawTxFreeze = LoggingDecorator(
-        TimeDecorator(
-            NotificationDecorator(depositAccount, withdrawTxFreeze)
-        )
-    )
+    val withdrawTxFreeze = TransactionBuilder()
+        .setAccount(depositAccount)
+        .setAmount(-500.0)
+        .setDescription("Rút tiền khi tài khoản bị đóng băng")
+        .setFeeStrategy(fixedFee)
+        .enableNotification()
+        .enableTimestamp()
+        .enableLog()
+        .build()
 
-    decoratedWithdrawTxFreeze.execute()
+    withdrawTxFreeze.execute()
 
     depositAccount.close()
 
