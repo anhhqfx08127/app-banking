@@ -1,4 +1,5 @@
 import factory.Account
+import iterator.TransactionHistory
 import observer.AccountObserver
 import state.AccountState
 import state.ActiveState
@@ -18,6 +19,9 @@ class BankAccount(
 ) {
     // Danh sách observer đang theo dõi tài khoản này
     private val observers = mutableListOf<AccountObserver>()
+
+    //  Lịch sử giao dịch
+    val history = TransactionHistory()
 
     /**
      * Đăng ký một observer để nhận thông báo khi số dư thay đổi.
@@ -39,16 +43,16 @@ class BankAccount(
      * Nạp tiền vào tài khoản.
      * Hành vi phụ thuộc vào trạng thái hiện tại (Active / Frozen / Closed).
      */
-    fun deposit(amount: Double, description: String) {
-        state.deposit(this, amount, description)
+    fun deposit(amount: Double, fee: Double, description: String) {
+        state.deposit(this, amount, fee, description)
     }
 
     /**
      * Rút tiền khỏi tài khoản.
      * Hành vi cũng phụ thuộc vào trạng thái hiện tại.
      */
-    fun withdraw(amount: Double, description: String) {
-        state.withdraw(this, amount, description)
+    fun withdraw(amount: Double, fee: Double, description: String) {
+        state.withdraw(this, amount, fee, description)
     }
 
     /**

@@ -18,14 +18,14 @@ class FrozenState : AccountState {
     /**
      * Không thể nạp tiền khi tài khoản đang bị đóng băng.
      */
-    override fun deposit(account: BankAccount, amount: Double, description: String) {
+    override fun deposit(account: BankAccount, amount: Double, fee: Double, description: String) {
         println("❌ Không thể nạp tiền, tài khoản ${account.account.accountNumber} đang bị đóng băng.")
     }
 
     /**
      * Không thể rút tiền khi tài khoản đang bị đóng băng.
      */
-    override fun withdraw(account: BankAccount, amount: Double, description: String) {
+    override fun withdraw(account: BankAccount, amount: Double, fee: Double, description: String) {
         println("❌ Không thể rút tiền, tài khoản ${account.account.accountNumber} đang bị đóng băng.")
     }
 

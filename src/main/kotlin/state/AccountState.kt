@@ -29,7 +29,7 @@ interface AccountState {
      * @param amount   Số tiền nạp.
      * @param description  Ghi chú giao dịch.
      */
-    fun deposit(account: BankAccount, amount: Double, description: String)
+    fun deposit(account: BankAccount, amount: Double, fee: Double, description: String)
 
     /**
      * Rút tiền khỏi tài khoản.
@@ -38,7 +38,7 @@ interface AccountState {
      * @param amount   Số tiền rút.
      * @param description  Ghi chú giao dịch.
      */
-    fun withdraw(account: BankAccount, amount: Double, description: String)
+    fun withdraw(account: BankAccount, amount: Double, fee: Double, description: String)
 
     /**
      * Đóng băng tài khoản — chuyển từ trạng thái hiện tại sang FREEZE.

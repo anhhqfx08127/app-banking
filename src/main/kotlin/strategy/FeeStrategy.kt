@@ -1,4 +1,5 @@
 package strategy
+
 /**
  * Giao diện (interface) định nghĩa chiến lược tính phí giao dịch.
  *
@@ -33,7 +34,7 @@ class FixedFee(private val fixed: Double) : FeeStrategy {
  */
 class PercentFee(private val percent: Double) : FeeStrategy {
     override fun fee(amount: Double): Double {
-        return percent * amount
+        return amount * percent / 100
     }
 }
 
