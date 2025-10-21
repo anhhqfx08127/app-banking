@@ -61,14 +61,14 @@ class ActiveState : AccountState {
      * ✅ Hành vi:
      *  - Cho phép truyền `amount` âm (đại diện cho dòng tiền ra).
      *  - Kiểm tra số dư.
-     *  - Nếu đủ, trừ `abs(amount) + fee` khỏi số dư.
+     *  - Nếu đủ, trừ `abs(amount) + abs(fee)` khỏi số dư.
      *  - Gửi thông báo biến động số dư.
      *
      * ⚠️ Nếu số dư không đủ, in cảnh báo và không trừ tiền.
      */
     override fun withdraw(account: BankAccount, amount: Double, fee: Double, description: String) {
         // Tổng tiền thực sự cần trừ khỏi tài khoản
-        val total = abs(amount) + fee
+        val total = abs(amount) + abs(fee)
 
         if (total > account.balance) {
             println("⚠️  Tài khoản ${account.account.accountNumber} không đủ tiền để rút ${abs(amount)} (phí: $fee).")

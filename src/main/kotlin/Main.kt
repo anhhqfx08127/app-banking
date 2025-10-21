@@ -118,12 +118,12 @@ fun main() {
     // Iterator: hiển thị lịch sử giao dịch của các tài khoản
     println("\n📜 Lịch sử giao dịch của tài khoản ${depositAccount.account.accountNumber}:")
     for (rec in depositAccount.history) {
-        println(" - ${rec.description}: số tiền = ${rec.amount}, số dư sau giao dịch = ${rec.balanceAfter}")
+        println(" - ${rec.description}: số tiền = ${rec.amount}, phí = ${rec.fee}, số dư sau giao dịch = ${rec.balanceAfter}")
     }
 
     println("\n📜 Lịch sử giao dịch của tài khoản ${salaryAccount.account.accountNumber}:")
     for (rec in salaryAccount.history) {
-        println(" - ${rec.description}: số tiền = ${rec.amount}, số dư sau giao dịch = ${rec.balanceAfter}")
+        println(" - ${rec.description}: số tiền = ${rec.amount}, phí = ${rec.fee}, số dư sau giao dịch = ${rec.balanceAfter}")
     }
 
 

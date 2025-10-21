@@ -1,5 +1,6 @@
 import iterator.TransactionRecord
 import strategy.FeeStrategy
+import kotlin.math.abs
 
 /**
  * 🧾 Giao diện Transaction — đại diện cho một hành động giao dịch.
@@ -40,6 +41,7 @@ class BasicTransaction(
                 TransactionRecord(
                     description = description,
                     amount = amount,
+                    fee = abs(fee),
                     balanceAfter = account.balance
                 )
             )

@@ -5,12 +5,14 @@ package iterator
  *
  * @param description Mô tả giao dịch (VD: "Rút tiền ATM", "Nộp tiền")
  * @param amount Số tiền giao dịch (âm nếu là rút, dương nếu là nạp)
+ * @param fee Phí giao dịch
  * @param balanceAfter Số dư sau khi giao dịch hoàn tất
  * @param timestamp Thời điểm thực hiện giao dịch (mặc định là thời gian hiện tại, tính theo milliseconds)
  */
 data class TransactionRecord(
     val description: String,
     val amount: Double,
+    val fee: Double,
     val balanceAfter: Double,
     val timestamp: Long = System.currentTimeMillis()
 )
